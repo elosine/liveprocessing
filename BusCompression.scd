@@ -1,0 +1,1 @@
+CompanderD.ar(thresh: -1.dbamp, slopeAbove:1/2, clampTime:0.007, relaxTime:0.0005);
