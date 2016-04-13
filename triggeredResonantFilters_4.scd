@@ -51,8 +51,8 @@
 	//Pitched Resonant Filters
 	SynthDef(\pitchedfilters, {
 		arg ibs,obs=0,atk=0.02,rel=0.1,crv= 0,gate=1,
-		decay1=0.08, decay2=0.08, pch1=60, pch2=62, pch3=64, pch4=66, pch5=68, pch6=70, pch7=72, mix=0.98, pslo1= -12, pshi1=12, pslo2= -12, pshi2 = 12;
-		var src1, src2, sig1, sig2, env, amp, freq1, hasfreq1, freq2, hasfreq2, famp, sig3, sig4, sig5, sig6, sig7;
+		decay1=0.08, decay2=0.08, fq1=130, fq2=298, fq3=572, fq4=894, mix=0.98, pslo1= -12, pshi1=12, pslo2= -12, pshi2 = 12;
+		var src1, src2, sig1, sig2, env, amp, freq1, hasfreq1, freq2, hasfreq2, famp, sig3, sig4;
 		amp = \amp.kr(5,0.01);
 		famp = \famp.kr(13.0, 0.01);
 		env = EnvGen.ar( Env.asr(atk, 1, rel, crv), gate );
@@ -60,15 +60,12 @@
 		src2 = In.ar(ibs+1);
 		# freq1, hasfreq1 = Tartini.kr(src1);
 		# freq2, hasfreq2 = Tartini.kr(src1);
-		sig1 = ComplexRes.ar(src1, (freq1.cpsmidi+SinOsc.kr(pch1.midicps).range(pslo1, pshi1)).midicps, decay1)*famp;
-		sig2 = ComplexRes.ar(src2, (freq2.cpsmidi+SinOsc.kr(pch2.midicps).range(pslo2, pshi2)).midicps, decay2)*famp;
-		sig3 = ComplexRes.ar(src1, (freq1.cpsmidi+SinOsc.kr(pch3.midicps).range(pslo1, pshi1)).midicps, decay1)*famp;
-		sig4 = ComplexRes.ar(src2, (freq2.cpsmidi+SinOsc.kr(pch4.midicps).range(pslo2, pshi2)).midicps, decay2)*famp;
-		sig5 = ComplexRes.ar(src2, (freq2.cpsmidi+SinOsc.kr(pch5.midicps).range(pslo2, pshi2)).midicps, decay2)*famp;
-		sig6 = ComplexRes.ar(src1, (freq1.cpsmidi+SinOsc.kr(pch6.midicps).range(pslo1, pshi1)).midicps, decay1)*famp;
-		sig7 = ComplexRes.ar(src2, (freq2.cpsmidi+SinOsc.kr(pch7.midicps).range(pslo2, pshi2)).midicps, decay2)*famp;
-		sig1 = Mix.ar([sig1*mix, src1*(1.0-mix), sig3*mix, sig6*mix]);
-		sig2 = Mix.ar([sig2*mix, src2*(1.0-mix), sig4*mix, sig5*mix, sig7*mix]);
+		sig1 = ComplexRes.ar(src1, (freq1.cpsmidi+SinOsc.kr(fq1).range(pslo1, pshi1)).midicps, decay1)*famp;
+		sig2 = ComplexRes.ar(src2, (freq2.cpsmidi+SinOsc.kr(fq2).range(pslo2, pshi2)).midicps, decay2)*famp;
+		sig3 = ComplexRes.ar(src1, (freq1.cpsmidi+SinOsc.kr(fq3).range(pslo1, pshi1)).midicps, decay1)*famp;
+		sig4 = ComplexRes.ar(src2, (freq2.cpsmidi+SinOsc.kr(fq4).range(pslo2, pshi2)).midicps, decay2)*famp;
+		sig1 = Mix.ar([sig1*mix, src1*(1.0-mix), sig3*mix]);
+		sig2 = Mix.ar([sig2*mix, src2*(1.0-mix), sig4*mix]);
 		Out.ar(0, [sig1, sig2]*amp);
 	}).add;
 
@@ -92,7 +89,7 @@ s.meter;
 
 
 s.sendMsg(\s_new, \pitchedfilters, 3020, 0, 905, \ibs, 150, \obs, 0);
-s.sendMsg(\n_set, 3020, \famp, 5, \decay1, 0.08, \decay2, 0.08, \mix, 0.98, \amp, 6, \pch1, 60, \pch2, 62, \pch3, 64, \pch4, 66, \pch5, 68, \pch6, 70, \pch7, 3, \pslo1, -13, \pshi1,  13, \pslo2, -13, \pshi2, 13);
+s.sendMsg(\n_set, 3020, \famp, 12, \decay1, 0.08, \decay2, 0.08, \mix, 0.99, \amp, 4, \fq1, 120, \fq2, 480, \fq3, 840, \fq4, 1200, \pslo1, -11, \pshi1,  11, \pslo2, -11, \pshi2, 11);
 s.sendMsg(\n_free, 3020);
 
 add harmonics
