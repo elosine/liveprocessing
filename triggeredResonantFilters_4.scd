@@ -80,6 +80,7 @@
 //Start Duster node-3010, group 904, in from abus 100
 s.sendMsg(\s_new, \duster, 3010, 0, 904, \ibs, 100, \obs, 0, \dens, 3);
 s.sendMsg(\n_set, 3010, \gatk, 0.01, \grel, 0.08, \gcrv, -3, \dens, 7, \amp, 3, \obs, 150);
+s.sendMsg(\n_set, 3010, \gatk, 0.01, \grel, 0.1, \gcrv, -3, \dens, 9, \amp, 3, \obs, 150);
 s.sendMsg(\n_free, 3010);
 s.meter;
 
@@ -90,6 +91,7 @@ s.meter;
 
 s.sendMsg(\s_new, \pitchedfilters, 3020, 0, 905, \ibs, 150, \obs, 0);
 s.sendMsg(\n_set, 3020, \famp, 12, \decay1, 0.08, \decay2, 0.08, \mix, 0.99, \amp, 4, \fq1, 120, \fq2, 480, \fq3, 840, \fq4, 1200, \pslo1, -11, \pshi1,  11, \pslo2, -11, \pshi2, 11);
+s.sendMsg(\n_set, 3020, \famp, 12, \decay1, 0.08, \decay2, 0.08, \mix, 0.99, \amp, 4, \fq1, 1200, \fq2, 4080, \fq3, 8040, \fq4, 12000, \pslo1, -4, \pshi1,  4, \pslo2, -4, \pshi2, 4);
 s.sendMsg(\n_free, 3020);
 
 add harmonics
